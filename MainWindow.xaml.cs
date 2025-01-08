@@ -193,16 +193,27 @@ namespace Tetris
             Draw(gameState);
         }
 
-        private async void GameCanvas_Loaded(object sender, RoutedEventArgs e)
-        {
-            await GameLoop();
-        }
+        //private async void GameCanvas_Loaded(object sender, RoutedEventArgs e)
+        //{
+        //    await GameLoop();
+        //}
 
         private async void PlayAgain_Click(object sender, RoutedEventArgs e)
         {
             gameState = new GameState();
             GameOverMenu.Visibility = Visibility.Hidden;
             await GameLoop();
+        }
+
+        private async void PlayButton_Click(object sender, RoutedEventArgs e)
+        {
+            StartMenu.Visibility = Visibility.Hidden;
+            await GameLoop();
+        }
+
+        private void QuitButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }
