@@ -34,7 +34,6 @@
                 Width="250"
                 Height="510"
                 ClipToBounds="True"/>
-            <!--Loaded="GameCanvas_Loaded"-->
         </Viewbox>
 
         <TextBlock x:Name="ScoreText"
@@ -87,6 +86,11 @@
                         Margin="0,20,0,0"
                         Padding="5"
                         Click="PlayAgain_Click"/>
+                <Button Content="Main Menu"
+                        Background="OrangeRed"
+                        Margin="0,20,0,0"
+                        Padding="5"
+                        Click="GoToMenu_Click"/>
             </StackPanel>
         </Grid>
 
