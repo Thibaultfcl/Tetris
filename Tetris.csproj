@@ -45,6 +45,9 @@
     <Resource Include="Assets\Block-T.png" />
     <Resource Include="Assets\Block-Z.png" />
     <Resource Include="Assets\Icon.ico" />
+    <Resource Include="Assets\Theme.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Assets\TileBlue.png" />
     <Resource Include="Assets\TileCyan.png" />
     <Resource Include="Assets\TileEmpty.png" />

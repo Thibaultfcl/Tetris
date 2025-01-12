@@ -1,20 +1,12 @@
-﻿using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Tetris.Block;
 
 namespace Tetris
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         private readonly ImageSource[] tileImages = new ImageSource[]
@@ -48,10 +40,13 @@ namespace Tetris
 
         private GameState gameState = new GameState();
 
+        private MediaPlayer mediaPlayer = new MediaPlayer();
+
         public MainWindow()
         {
             InitializeComponent();
             imageControls = SetupGameCanvas(gameState.GameGrid);
+            InitializeMediaPlayer();
         }
 
         private Image[,] SetupGameCanvas(GameGrid grid)
@@ -140,6 +135,24 @@ namespace Tetris
             ScoreText.Text = $"Score: {gameState.Score}";
         }
 
+        private void InitializeMediaPlayer()
+        {
+            mediaPlayer = new MediaPlayer();
+            mediaPlayer.Open(new Uri("Assets/Theme.mp3", UriKind.Relative));
+            mediaPlayer.MediaEnded += MediaPlayer_MediaEnded;
+            mediaPlayer.MediaFailed += (sender, args) =>
+            {
+                MessageBox.Show($"Erreur : {args.ErrorException.Message}");
+            };
+            mediaPlayer.Play();
+        }
+
+        private void MediaPlayer_MediaEnded(object? sender, EventArgs e)
+        {
+            mediaPlayer.Position = TimeSpan.Zero;
+            mediaPlayer.Play();
+        }
+
         private async Task GameLoop()
         {
             Draw(gameState);
@@ -197,6 +210,7 @@ namespace Tetris
         {
             gameState = new GameState();
             GameOverMenu.Visibility = Visibility.Hidden;
+            mediaPlayer.Play();
             await GameLoop();
         }
 
@@ -204,17 +218,20 @@ namespace Tetris
         {
             GameOverMenu.Visibility = Visibility.Hidden;
             StartMenu.Visibility = Visibility.Visible;
+            mediaPlayer.Close();
         }
 
         private async void PlayButton_Click(object sender, RoutedEventArgs e)
         {
             gameState = new GameState();
             StartMenu.Visibility = Visibility.Hidden;
+            mediaPlayer.Play();
             await GameLoop();
         }
 
         private void QuitButton_Click(object sender, RoutedEventArgs e)
         {
+            mediaPlayer.Close();
             Close();
         }
     }
